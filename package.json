@@ -1,0 +1,46 @@
+{
+	"private": true,
+	"name": "sars-angel",
+	"version": "1.0.0",
+	"scripts": {
+		"build": "run-s build:clean build:code",
+		"build:clean": "rimraf dist",
+		"build:code": "tsc",
+		"dev": "nodemon src/entry.ts",
+		"dev:debug": "nodemon --inspect src/entry.ts",
+		"fmt": "prettier --write '**/*.{js,ts}'",
+		"fmt:p": "prettier-package-json --write",
+		"prod": "run-s build && node dist/entry.js",
+		"test": "jest --no-cache"
+	},
+	"jest": {
+		"transform": {
+			"^.+\\.ts$": "ts-jest"
+		},
+		"testRegex": "\\.test\\.ts",
+		"moduleFileExtensions": [ "ts", "tsx", "js", "jsx", "json", "node" ]
+	},
+	"prettier": {
+		"singleQuote": true,
+		"trailingComma": "es5",
+		"arrowParens": "always"
+	},
+	"dependencies": {
+		"express": "4.17.1",
+		"winston": "3.3.3"
+	},
+	"devDependencies": {
+		"@types/supertest": "2.0.10",
+		"prettier": "2.1.2",
+		"npm-run-all": "4.1.5",
+		"rimraf": "3.0.2",
+		"ts-node": "9.0.0",
+		"nodemon": "2.0.4",
+		"ts-jest": "26.4.1",
+		"typescript": "4.0.3",
+		"@types/express": "4.17.8",
+		"supertest": "5.0.0",
+		"@types/jest": "26.0.14",
+		"jest": "26.5.2"
+	}
+}
