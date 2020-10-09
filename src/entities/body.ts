@@ -14,10 +14,14 @@ export default {
 	voice: 'Leaders establish trust with candor transparency and credit',
 	whatsapp: 'Leaders establish trust with candor transparency and credit',
 	email:
-		'Leaders establish trust with candor transparency and credit, A leader is best when people barely know he exists when his work is done, his aim fulfilled, they will all say: We did it ourselves'
+		'Dear sir/ma, I am  a concerned citizen of your constituent, and I will like to express my displeasure about SARS. The members of this squad who are supposed to protect us against armed robbery are killing, extorting and harassing us everyday. We are scared to move freely and we need your help. I urge you, distinguished, to use your office to protect the lives of Nigerian youths as we are the future of the Nation. We are counting on you to do the right thing. We are counting on you to help us #ENDSARS. Thanks!'
 };
 
 export const alt = {
 	email:
-		'Dear sir/ma, I am  a concerned citizen of your constituent, and I will like to express my displeasure about SARS. The members of this squad who are supposed to protect us against armed robbery are killing, extorting and harassing us everyday. We are scared to move freely and we need your help. I urge you, distinguished, to use your office to protect the lives of Nigerian youths as we are the future of the Nation. We are counting on you to do the right thing. We are counting on you to help us #ENDSARS. Thanks!'
+		'Leaders establish trust with candor transparency and credit, A leader is best when people barely know he exists when his work is done, his aim fulfilled, they will all say: We did it ourselves'
 };
+
+/* For Tweets */
+export const mentions =
+	'@BBCNews  @cnnbrk  @dwtv  @TheDailyShow  @FoxNews  @FOXTV  @FOX17Erik  @FoxBusiness  @FoxNews  @espn  @ESPNPR  @ABC   @AriseTVAmerica  @nytimes  @NYDailyNews  @nypost  @AlJazeera  @AljazeeraDoc  @cnnbrk  @bbcquestiontime   @cnni';
