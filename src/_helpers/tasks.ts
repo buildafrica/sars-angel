@@ -1,44 +1,40 @@
 /**
  * Tasks related to Queues and Events, based on Bull
- * 1. Make Repeatable: A Function to repeat a task over a period of time
+ * 1. Make Repeatable Task: A Function to repeat a task over a period of time
  * 2. Make CronTask: A Function to generate a cron task for the Queue
  */
 /* ------------------------------------------------------------------------ */
 
-// await messageQueue.add(
-//     { test: 'bar' },
-//     {
-//         repeat: {
-//             every: 10000,
-//             limit: 5
-//         }
-//     }
-// );
+import Bull from 'bull';
+type TQueueProducer = Record<string, string | number | undefined> | Record<string, string | number | undefined>[];
+type TData = TQueueProducer | (() => TQueueProducer);
 
-// messageQueue.process(function(job, done) {
-//     console.log('Received message', job.data);
-//     done();
-// });
+export const _createRepeatableTask = (queue: Bull.Queue, name: string, data: TData) => {
+	queue.add(name, data, {
+		repeat: {
+			every: 10000,
+			limit: 5
+		}
+	});
+};
 
-// messageQueue.close().then(function() {
-// 	console.log('done');
-// });
+export const _createCronTask = (queue: Bull.Queue, name: string, data: TData) => {
+	queue.add(name, data, {
+		repeat: { cron: '1 * * * *' }
+	});
+};
 
-// Repeat payment job once every day at 3:15 (am)
-// messageQueue.add('string Blob', { repeat: { cron: '1 * * * *' } });
-// console.log(messageQueue, myJob);
-
-/* ------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------- */
 // Named jobs
 
-// It is possible to give names to jobs. This does not change any of the mechanics of the queue but can be used for clearer code and better visualization in UI tools:
+// It is possible to give names to jobs.
+// This does not change any of the mechanics of the queue but can be used for
+// clearer code and better visualization in UI tools:
 
 // // Jobs producer
 // const myJob = await transcoderQueue.add('image', { input: 'myimagefile' });
-// const myJob = await transcoderQueue.add('audio', { input: 'myaudiofile' });
-// const myJob = await transcoderQueue.add('video', { input: 'myvideofile' });
 
 // Worker
 // transcoderQueue.process('image', processImage);
-// transcoderQueue.process('audio', processAudio);
-// transcoderQueue.process('video', processVideo);
+// // and named processors: with concurrency set at 5
+// queue.process('image', 5, '/path/to/my/processor.js');
