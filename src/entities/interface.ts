@@ -1,9 +1,10 @@
-export interface IRecipients {
+export interface IStatemen {
 	name: string;
-	email: string;
-	twitter: string;
-	phone: number;
-	whatsapp: number;
+	phone: string;
+	twitter?: string | undefined;
+	email?: string | undefined;
+	whatsapp?: string | undefined;
 }
 
-export type THashTags = '#EndSARs' | 'EndSARsNow';
+export type THashTags = Array<'#EndSARs' | 'EndSARsNow' | string>;
+export type THandles = Array<'@FOX17Erik' | '@cnnbrk' | '@AlJazeera' | string>;
