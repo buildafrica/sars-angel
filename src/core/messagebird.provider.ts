@@ -1,38 +1,45 @@
-var messagebird = require('messagebird')('g3tlWqJBpwWzsu1krPiu4CMGt'); //TEST API KEY
+import * as mb from 'messagebird';
+import { MessageParameters } from 'messagebird';
+import { VoiceParameters } from 'messagebird/types/voice_messages';
 
-/**
- * Methods to manage messaging Triggers =
- */
-export const triggerVoice = async () => {
-	const voiceParams = {
-		recipients: [ '+233506391853' ] /* Messagebird can queue array items for sending */,
-		body: `Hi CustomerName, we reaching out to you on behalf of our userName`,
+/* Entties and Logger */
+import logger from '../core/logger';
+import secrets from '../core/secrets';
+import messageBody from '../entities/body';
+
+const key = secrets.MESSAGEBIRD_KEY || '';
+const messagebird = mb.default(key);
+
+export const mbVoiceCallProvider = async (recipientPhone: string, recipientName: string) => {
+	// const recipients = [ '+233506391853' ] /* Messagebird can queue array items for sending */;
+	const voiceParams: VoiceParameters = {
+		body: `Dear ${recipientName}, ${messageBody.voice}`,
 		language: 'en-au',
 		voice: 'female',
-		originator: '+2330565521580'
+		originator: '#EndSARSNow'
 	};
 
-	await messagebird.voice_messages.create(voiceParams, function(err: any, data: any) {
+	await messagebird.voice_messages.create([ recipientPhone ], voiceParams, function(err, data) {
 		if (err) {
-			return console.log(err);
+			return logger.error(err);
 		}
-		console.log(data);
+		logger.info(data);
+		return data;
 	});
 };
 
-export const triggerSMS = async () => {
-	const params = {
-		originator: 'ORIGINATOR',
-		recipients: [ '+233506391853' ],
-		body: 'This is a test message'
+export const mbSMSProvider = async (recipientPhone: string, recipientName: string) => {
+	const smsParams: MessageParameters = {
+		originator: '#EndSARSNow',
+		recipients: [ recipientPhone ],
+		body: `Dear ${recipientName}, ${messageBody.sms}`
 	};
 
-	await messagebird.messages.create(params, (err: any, data: any) => {
+	await messagebird.messages.create(smsParams, (err, data) => {
 		if (err) {
-			return console.log(err);
+			return logger.error(err);
 		}
-		console.log(data);
+		logger.info(data);
+		return data;
 	});
 };
-
-triggerSMS();

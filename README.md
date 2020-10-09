@@ -9,6 +9,6 @@ After starting the app with `npm run dev:debug`, you've two options:
 
 ## NTH (Nice to haves)
 
-- Tumble Sender Address to limit spam
+- Tumble Sender Addresses to limit spam
 - Add Provider for Whatsapp
 - Add Provider for Twitter Alerts to Public Servants

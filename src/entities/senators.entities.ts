@@ -1,4 +1,6 @@
-export default [
+import { IStatemen } from './interface';
+
+const statemen: IStatemen[] = [
 	{
 		state: 'ABIA',
 		name: 'Sen. E. Abaribe',
@@ -545,3 +547,5 @@ export default [
 		email: 'mpigib@yahoo.com'
 	}
 ];
+
+export default statemen;

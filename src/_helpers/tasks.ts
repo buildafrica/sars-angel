@@ -13,8 +13,8 @@ type TData = TQueueProducer | (() => TQueueProducer);
 export const _createRepeatableTask = (queue: Bull.Queue, name: string, data: TData) => {
 	queue.add(name, data, {
 		repeat: {
-			every: 10000,
-			limit: 5
+			every: 18000000, // 300 minutes
+			limit: 100
 		}
 	});
 };

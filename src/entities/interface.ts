@@ -1,8 +1,9 @@
 export interface IStatemen {
 	name: string;
-	phone: string;
+	email: string;
+	state: string;
+	phone?: string;
 	twitter?: string | undefined;
-	email?: string | undefined;
 	whatsapp?: string | undefined;
 }
 
