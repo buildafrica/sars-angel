@@ -16,7 +16,7 @@ BullBoard.setQueues([ messageQueue ]);
 
 export default async function queue() {
 	// Repeat every 10 seconds for 5 times.
-	const myJob = await messageQueue.add(
+	await messageQueue.add(
 		{ test: 'bar' },
 		{
 			repeat: {
@@ -26,9 +26,18 @@ export default async function queue() {
 		}
 	);
 
+	messageQueue.process(function(job, done) {
+		console.log('Received message', job.data);
+		done();
+	});
+
+	// messageQueue.close().then(function() {
+	// 	console.log('done');
+	// });
+
 	// Repeat payment job once every day at 3:15 (am)
 	// messageQueue.add('string Blob', { repeat: { cron: '1 * * * *' } });
-	console.log(messageQueue, myJob);
+	// console.log(messageQueue, myJob);
 }
 
 // 1 * * * * Cron for every minute
