@@ -33,6 +33,7 @@
 		"express": "4.17.1",
 		"messagebird": "^3.5.0",
 		"postmark": "^2.6.0",
+		"ts-node": "9.0.0",
 		"winston": "3.3.3"
 	},
 	"devDependencies": {
@@ -49,7 +50,6 @@
 		"rimraf": "3.0.2",
 		"supertest": "5.0.0",
 		"ts-jest": "26.4.1",
-		"ts-node": "9.0.0",
 		"typescript": "4.0.3"
 	}
 }
