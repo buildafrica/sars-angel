@@ -1,17 +1,19 @@
 import logger from './core/logger';
 import secrets from './core/secrets';
 import server from './server';
+import queue from './queue';
 
 async function main() {
-  await server.listen({ port: secrets.PORT, host: secrets.HOST });
-  logger.info(`Running at http://${secrets.HOST}:${secrets.PORT}`);
+	queue();
+	await server.listen({ port: secrets.PORT, host: secrets.HOST });
+	logger.info(`Running at http://${secrets.HOST}:${secrets.PORT}`);
 }
 
 process.on('unhandledRejection', (err) => {
-  if (err) {
-    logger.error(err);
-  }
-  process.exit(1);
+	if (err) {
+		logger.error(err);
+	}
+	process.exit(1);
 });
 
 main();
