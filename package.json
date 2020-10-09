@@ -6,6 +6,7 @@
 		"build": "run-s build:clean build:code",
 		"build:clean": "rimraf dist",
 		"build:code": "tsc",
+		"start": "node dist/entry.js",
 		"dev": "nodemon src/entry.ts",
 		"dev:debug": "nodemon --inspect src/entry.ts",
 		"fmt": "prettier --write '**/*.{js,ts}'",
