@@ -8,7 +8,7 @@ export default {
 	REDIS_PORT: typeof REDIS_PORT === 'undefined' ? 6379 : parseInt(REDIS_PORT),
 	REDIS_HOST: process.env.REDIS_HOST || '127.0.0.1',
 	REDIS_PASSWORD: process.env.REDIS_PASSWORD,
-	POSTMARK_SENDER: process.env.POSTMARK_SENDER,
+	POSTMARK_SENDER: process.env.POSTMARK_SENDER || '',
 	POSTMARK_KEY: process.env.POSTMARK_KEY,
 	MESSAGEBIRD_KEY: process.env.MESSAGEBIRD_KEY
 };

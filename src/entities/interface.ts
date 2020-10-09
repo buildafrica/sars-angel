@@ -6,5 +6,5 @@ export interface IStatemen {
 	whatsapp?: string | undefined;
 }
 
-export type THashTags = Array<'#EndSARs' | 'EndSARsNow' | string>;
+export type THashTags = Array<'#EndSARs' | 'EndSARsNow' | '#ReformPoliceNG' | string>;
 export type THandles = Array<'@FOX17Erik' | '@cnnbrk' | '@AlJazeera' | string>;
