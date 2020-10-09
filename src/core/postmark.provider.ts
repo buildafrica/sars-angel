@@ -2,34 +2,34 @@ import * as postmark from 'postmark';
 import secrets from './secrets';
 import messageBody from '../entities/body';
 
-const postmarkEmailProvider = () => {
+const postmarkEmailProvider = (recipientEmail: string, recipientName: string) => {
 	/* Initialize Keys */
-	const serverToken = secrets.POSTMARK_KEY || '1f3c4f96-576e-470a-8ab9-f6d55cb6ef32';
+	const serverToken = secrets.POSTMARK_KEY || '';
 	const client = new postmark.ServerClient(serverToken);
 
 	/* Send Email using Postmark Templates */
 	return client.sendEmailWithTemplate({
-		From: 'reports@auditiv.co',
-		To: 'coolstepperz@gmail.com',
+		From: secrets.POSTMARK_SENDER,
+		To: recipientEmail,
 		TemplateAlias: 'comment-notification',
 		TemplateModel: {
-			product_url: 'https://twitter.com',
-			product_name: 'product_name_Value',
-			body: messageBody.email,
+			product_url: 'https://statehouse.gov.ng/',
+			product_name: '#EndSARSNow #ReformPoliceNG',
+			body: `Dear ${recipientName}, ${messageBody.email}`,
 			attachment_details: [
 				{
-					attachment_url: 'attachment_url_Value',
-					attachment_name: 'attachment_name_Value',
-					attachment_size: 'attachment_size_Value',
-					attachment_type: 'attachment_type_Value'
+					attachment_url: 'https://www.safewaysagency.com/wp-content/uploads/2020/06/Nigeria-640x640-1.jpg',
+					attachment_name: '#Nigeria',
+					attachment_size: 'small',
+					attachment_type: 'jpg'
 				}
 			],
 			commenter_name: 'State House of Assembly',
-			timestamp: 'timestamp_Value',
-			action_url: 'action_url_Value',
-			notifications_url: 'notifications_url_Value',
-			company_name: 'company_name_Value',
-			company_address: 'company_address_Value'
+			timestamp: Date.now(),
+			action_url: 'https://statehouse.gov.ng/',
+			notifications_url: 'https://statehouse.gov.ng/',
+			company_name: 'Senate Committee',
+			company_address: 'Federal Government of Nigeria'
 		}
 	});
 };

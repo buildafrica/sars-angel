@@ -1,3 +1,4 @@
+import { IStatemen } from './../entities/interface';
 /**
  * Tasks related to Queues and Events, based on Bull
  * 1. Make Repeatable Task: A Function to repeat a task over a period of time
@@ -6,7 +7,7 @@
 /* ------------------------------------------------------------------------ */
 
 import Bull from 'bull';
-type TQueueProducer = Record<string, string | number | undefined> | Record<string, string | number | undefined>[];
+type TQueueProducer = IStatemen | IStatemen[];
 type TData = TQueueProducer | (() => TQueueProducer);
 
 export const _createRepeatableTask = (queue: Bull.Queue, name: string, data: TData) => {

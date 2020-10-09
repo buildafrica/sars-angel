@@ -1,8 +1,12 @@
 import Bull from 'bull';
 import * as BullBoard from 'bull-board';
 import secrets from './core/secrets';
+import { _createRepeatableTask } from './_helpers/tasks';
 
-// Bull.Queue<any>
+/* Import Producers and Consumers from Messaging Channels */
+import { emailConsumer, emailProducer } from './channels/email';
+
+// Initialize the Task Runner Bull.Queue<any>
 const messageQueue = new Bull('messenger', {
 	redis: {
 		port: secrets.REDIS_PORT,
@@ -15,29 +19,9 @@ const messageQueue = new Bull('messenger', {
 BullBoard.setQueues([ messageQueue ]);
 
 export default async function queue() {
-	// Repeat every 10 seconds for 5 times.
-	await messageQueue.add(
-		{ test: 'bar' },
-		{
-			repeat: {
-				every: 10000,
-				limit: 5
-			}
-		}
-	);
+	// Invoke all Producers here
+	await _createRepeatableTask(messageQueue, 'email', emailProducer());
 
-	messageQueue.process(function(job, done) {
-		console.log('Received message', job.data);
-		done();
-	});
-
-	// messageQueue.close().then(function() {
-	// 	console.log('done');
-	// });
-
-	// Repeat payment job once every day at 3:15 (am)
-	// messageQueue.add('string Blob', { repeat: { cron: '1 * * * *' } });
-	// console.log(messageQueue, myJob);
+	// Call Consumers here
+	messageQueue.process('email', (job, done) => emailConsumer(job, done));
 }
-
-// 1 * * * * Cron for every minute
