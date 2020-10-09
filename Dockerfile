@@ -10,7 +10,7 @@ COPY package*.json ./
 
 RUN npm install && npm build
 # If you are building your code for production
-RUN npm run test --only=production
+# RUN npm run test --only=production
 
 # Bundle app source
 COPY . .
