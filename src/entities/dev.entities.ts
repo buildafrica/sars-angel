@@ -8,7 +8,7 @@ export default [
 	{
 		state: 'ABIA',
 		name: 'Sen. O. Kalu',
-		email: 'andrew@wootivmedia.com',
+		email: 'tecmie@gmail.com',
 		phone: '08166969592'
 	},
 	{

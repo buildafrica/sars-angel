@@ -7,14 +7,14 @@ import { IStatemen } from './../entities/interface';
 /* ------------------------------------------------------------------------ */
 
 import Bull from 'bull';
-type TQueueProducer = IStatemen | IStatemen[];
+type TQueueProducer = IStatemen | (IStatemen | Partial<IStatemen>)[];
 type TData = TQueueProducer | (() => TQueueProducer);
 
-export const _createRepeatableTask = (queue: Bull.Queue, name: string, data: TData) => {
+export const _createRepeatableTask = (queue: Bull.Queue) => (name: string, data: TData) => {
 	queue.add(name, data, {
 		repeat: {
-			every: 18000000, // 300 minutes
-			limit: 100
+			every: 5000, // 300 minutes = 18000000
+			limit: 2
 		}
 	});
 };

@@ -5,6 +5,8 @@ import { _createRepeatableTask } from './_helpers/tasks';
 
 /* Import Producers and Consumers from Messaging Channels */
 import { emailConsumer, emailProducer } from './channels/email';
+import { SMSProducer } from './channels/sms/producer';
+import { SMSConsumer } from './channels/sms';
 
 // Initialize the Task Runner Bull.Queue<any>
 const messageQueue = new Bull('messenger', {
@@ -20,8 +22,10 @@ BullBoard.setQueues([ messageQueue ]);
 
 export default async function queue() {
 	// Invoke all Producers here
-	await _createRepeatableTask(messageQueue, 'email', emailProducer());
+	await _createRepeatableTask(messageQueue)('email', emailProducer());
+	await _createRepeatableTask(messageQueue)('SMS', SMSProducer());
 
 	// Call Consumers here
 	messageQueue.process('email', (job, done) => emailConsumer(job, done));
+	messageQueue.process('SMS', (job, done) => SMSConsumer(job, done));
 }

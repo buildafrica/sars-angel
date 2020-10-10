@@ -1,5 +1,5 @@
 import * as mb from 'messagebird';
-import { MessageParameters } from 'messagebird';
+import { MessageParameters } from 'messagebird/types/messages';
 import { VoiceParameters } from 'messagebird/types/voice_messages';
 
 /* Entties and Logger */
@@ -7,7 +7,7 @@ import logger from '../core/logger';
 import secrets from '../core/secrets';
 import messageBody from '../entities/body';
 
-const key = secrets.MESSAGEBIRD_KEY || '';
+const key = secrets.MESSAGEBIRD_TESTKEY || '';
 const messagebird = mb.default(key);
 
 export const mbVoiceCallProvider = async (recipientPhone: string, recipientName: string) => {
@@ -16,15 +16,15 @@ export const mbVoiceCallProvider = async (recipientPhone: string, recipientName:
 		body: `Dear ${recipientName}, ${messageBody.voice}`,
 		language: 'en-au',
 		voice: 'female',
-		originator: '#EndSARSNow'
+		originator: '+23408110000010'
 	};
 
 	await messagebird.voice_messages.create([ recipientPhone ], voiceParams, function(err, data) {
 		if (err) {
-			return logger.error(err);
+			console.error(err);
+			return logger.error('message sending failed');
 		}
-		logger.info(data);
-		return data;
+		return logger.info(JSON.stringify(data));
 	});
 };
 
@@ -39,7 +39,7 @@ export const mbSMSProvider = async (recipientPhone: string, recipientName: strin
 		if (err) {
 			return logger.error(err);
 		}
-		logger.info(data);
-		return data;
+		console.log(data);
+		return logger.info(JSON.stringify(data));
 	});
 };
