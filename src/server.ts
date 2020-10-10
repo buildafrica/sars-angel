@@ -1,10 +1,19 @@
 import express from 'express';
 import * as BullBoard from 'bull-board';
 import messengerRoute from './domains/messenger/routes';
+import cors from 'cors';
 
 const server = express();
+/* Enable cors:: should limit origin once stabls */
+server.use(
+	cors({
+		methods: [ 'GET', 'POST', 'PATCH' ],
+		credentials: true,
+		origin: '*'
+	})
+);
 
-/* For the UI */
+/* For the UI and API Routes*/
 server.use('/ui', BullBoard.UI);
 server.use('/send', messengerRoute);
 server.use('/_healthcheck', (_req, res) => {
