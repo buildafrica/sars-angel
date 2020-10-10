@@ -4,7 +4,7 @@ import controllers from './controllers';
 
 const router = express.Router();
 
-router.get('/', controllers.index);
+router.post('/send', controllers.createWorker);
 router.get('/:id', controllers.show);
 
 export default router;

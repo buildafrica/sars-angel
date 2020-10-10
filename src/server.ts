@@ -13,9 +13,13 @@ server.use(
 	})
 );
 
+/* --- JSON Parser for incoming requests --- */
+server.use(express.urlencoded({ extended: true }));
+server.use(express.json());
+
 /* For the UI and API Routes*/
 server.use('/ui', BullBoard.UI);
-server.use('/send', messengerRoute);
+server.use('/messenger', messengerRoute);
 server.use('/_healthcheck', (_req, res) => {
 	res.status(200).json({ uptime: process.uptime() });
 });
