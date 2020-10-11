@@ -18,8 +18,8 @@ export const mbVoiceCallProvider = async (recipientPhone: string, recipientName:
 		body: `Dear ${recipientName}, ${messageBody.voice}`,
 		language: 'en-au',
 		recipients: [ recipientPhone ],
-		voice: 'female',
-		originator: secrets.CALL_SENDERID
+		voice: 'female'
+		// originator: secrets.CALL_SENDERID
 	};
 
 	await messagebird.voice_messages.create(voiceParams, function(err, data) {

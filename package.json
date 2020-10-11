@@ -45,6 +45,7 @@
 		"messagebird": "^3.5.0",
 		"postmark": "^2.6.0",
 		"ts-node": "9.0.0",
+		"twilio": "^3.49.4",
 		"winston": "3.3.3"
 	},
 	"devDependencies": {
@@ -58,6 +59,7 @@
 		"@types/lodash": "^4.14.161",
 		"@types/node": "^14.11.8",
 		"@types/supertest": "2.0.10",
+		"@types/twilio": "^2.11.0",
 		"babel": "^6.23.0",
 		"eslint": "^7.11.0",
 		"jest": "26.5.2",
