@@ -1,6 +1,6 @@
 import * as mb from 'messagebird';
 import { MessageParameters } from 'messagebird/types/messages';
-import { VoiceParameters } from 'messagebird/types/voice_messages';
+import { VoiceParametersWithRecipients } from 'messagebird/types/voice_messages';
 
 /* Entties and Logger */
 import logger from '../core/logger';
@@ -11,18 +11,21 @@ const key = secrets.MESSAGEBIRD_TESTKEY || '';
 const messagebird = mb.default(key);
 
 export const mbVoiceCallProvider = async (recipientPhone: string, recipientName: string) => {
+	console.log('sending love and voice', recipientName, recipientPhone);
+
 	// const recipients = [ '+233506391853' ] /* Messagebird can queue array items for sending */;
-	const voiceParams: VoiceParameters = {
+	const voiceParams: VoiceParametersWithRecipients = {
 		body: `Dear ${recipientName}, ${messageBody.voice}`,
 		language: 'en-au',
+		recipients: [ recipientPhone ],
 		voice: 'female',
-		originator: '+23408110000010'
+		originator: secrets.CALL_SENDERID
 	};
 
-	await messagebird.voice_messages.create([ recipientPhone ], voiceParams, function(err, data) {
+	await messagebird.voice_messages.create(voiceParams, function(err, data) {
 		if (err) {
+			logger.error('voice_message.create message sending failed');
 			console.error(err);
-			return logger.error('message sending failed');
 		}
 		return logger.info(JSON.stringify(data));
 	});
