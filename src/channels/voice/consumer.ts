@@ -8,10 +8,10 @@ export async function voiceConsumer(job: Bull.Job<IStatemen[]>, done: DoneCallba
 	console.log('VOICE CALL JOB STARTED ---->', job);
 
 	// Call the Email provider
-	await data.forEach((item) => {
+	await data.forEach(async (item) => {
 		const phone = item.phone || '';
 		const name = item.name || '';
-		mbVoiceCallProvider(phone, name);
+		await mbVoiceCallProvider(phone, name);
 	});
 	done();
 }

@@ -33,3 +33,15 @@ export default function airtableProvider() {
 			}
 		);
 }
+
+/* Module to retrieve records from a table */
+export const retrieveRecords = () => null;
+export const createProducer = () => null;
+export const patchConsumer = () => null;
+
+/* Optionally provide dumb modules */
+export const getsmsPayload = () => null;
+export const getEmailPayload = () => null;
+export const getMessagePayload = () => null;
+export const getVoicePayload = () => null;
+export const getRecipientsPayload = () => null;

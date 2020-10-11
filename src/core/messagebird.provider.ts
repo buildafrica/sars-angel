@@ -7,7 +7,7 @@ import logger from '../core/logger';
 import secrets from '../core/secrets';
 import messageBody from '../entities/body';
 
-const key = secrets.MESSAGEBIRD_TESTKEY || '';
+const key = secrets.MESSAGEBIRD_KEY || '';
 const messagebird = mb.default(key);
 
 export const mbVoiceCallProvider = async (recipientPhone: string, recipientName: string) => {
