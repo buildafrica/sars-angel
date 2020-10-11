@@ -6,12 +6,6 @@ export default [
 		phone: '08166969592'
 	},
 	{
-		state: 'ABIA',
-		name: 'Sen. O. Kalu',
-		email: 'tecmie@gmail.com',
-		phone: '08166969592'
-	},
-	{
 		state: 'UYO',
 		name: 'Sen. Rose Orji',
 		email: 'marlineseffiong@gmail.com',
