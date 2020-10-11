@@ -1,47 +1,55 @@
 import Airtable from 'airtable';
+import logger from './logger';
 import secrets from './secrets';
 
 /* Configure API Access for Airtable Base */
-
-export default function airtableProvider() {
-	const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
-
-	return base('Recipients')
-		.select({
-			// Selecting the first 3 records in All Public Servants:
-			// maxRecords: 3,
-			view: 'All Public Servants'
-		})
-		.eachPage(
-			function page(records, fetchNextPage) {
-				// This function (`page`) will get called for each page of records.
-
-				records.forEach(function(record) {
-					console.log('Retrieved', record.fields);
-				});
-
-				// To fetch the next page of records, call `fetchNextPage`.
-				// If there are more records, `page` will get called again.
-				// If there are no more records, `done` will get called.
-				fetchNextPage();
-			},
-			function done(err) {
-				if (err) {
-					console.error(err);
-					return;
-				}
-			}
-		);
+interface TableOptionProps {
+	baseName: string;
+	baseView: string;
+	limit?: number | 10;
 }
 
-/* Module to retrieve records from a table */
-export const retrieveRecords = () => null;
-export const createProducer = () => null;
-export const patchConsumer = () => null;
+interface IManyRecordField {
+	/* An Array of any interface type must have a single key of name fields that contains payload */
+	fields: Record<any, string | number | boolean>;
+}
 
-/* Optionally provide dumb modules */
-export const getsmsPayload = () => null;
-export const getEmailPayload = () => null;
-export const getMessagePayload = () => null;
-export const getVoicePayload = () => null;
-export const getRecipientsPayload = () => null;
+export const getSimpleCollection = (options: Omit<TableOptionProps, 'limit'>) => {
+	const { baseName, baseView } = options;
+	const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
+
+	return base(baseName).select({
+		view: baseView
+	});
+};
+
+export const getCollection = (options: TableOptionProps) => {
+	const { baseName, limit, baseView } = options;
+	const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
+
+	return base(baseName).select({
+		maxRecords: limit,
+		view: baseView
+	});
+};
+
+export const createOneRecord = <T extends Object>(baseName: string, payload: T) => {
+	const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
+
+	logger.info(`creating new record in ${baseName}`);
+
+	return base(baseName).create([
+		{
+			fields: {
+				...payload
+			}
+		}
+	]);
+};
+
+export const createManyRecord = <T extends IManyRecordField>(baseName: string, payload: T[]) => {
+	const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
+
+	logger.info(`creating new record in ${baseName}`);
+	return base(baseName).create([ [ ...payload ] ]);
+};
