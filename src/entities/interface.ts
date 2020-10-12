@@ -10,3 +10,15 @@ export interface IStatemen {
 
 export type THashTags = Array<'#EndSARs' | 'EndSARsNow' | '#ReformPoliceNG' | string>;
 export type THandles = Array<'@FOX17Erik' | '@cnnbrk' | '@AlJazeera' | string>;
+
+export enum CHANNEL {
+	VOICE = 'voice',
+	SMS = 'sms',
+	WHATSAPP = 'whatsapp',
+	EMAIL = 'email',
+	TWITTER = 'twitter'
+}
+export enum STATUS {
+	FAILED = 'voice',
+	DELIVERED = 'sms'
+}

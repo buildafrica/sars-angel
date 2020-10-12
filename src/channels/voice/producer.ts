@@ -25,7 +25,7 @@ export const voiceProducer = async (): Promise<Omit<IStatemen | 'email', 'state'
 	const recordCreatedOption = {
 		recipients: `${result.length} Recipients`,
 		channel: VOICE,
-		message: `A ${VOICE} worker has been initiated on ${new Date().toDateString()} with ${result.length} Recipients`,
+		message: `A ${VOICE} worker has been initiated on ${new Date().toUTCString()} with ${result.length} Recipients`,
 		time: new Date().toString()
 	};
 

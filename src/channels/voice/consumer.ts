@@ -1,3 +1,5 @@
+import { getRandomNode } from './../../_helpers/entities';
+import { getVoicePayload } from '../../entities/messages.entities';
 import Bull, { DoneCallback } from 'bull';
 
 import { IStatemen } from './../../entities/interface';
@@ -11,7 +13,8 @@ export function voiceConsumer(job: Bull.Job<IStatemen[]>, done: DoneCallback) {
 	data.forEach(async (item) => {
 		const phone = item.phone || '';
 		const name = item.name || '';
-		await mbVoiceCallProvider(phone, name);
+		const message = getRandomNode(await getVoicePayload()) || '';
+		await mbVoiceCallProvider(phone, name, message);
 	});
 	done();
 }

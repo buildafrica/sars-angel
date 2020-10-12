@@ -1,6 +1,7 @@
 import Airtable from 'airtable';
 import logger from './logger';
 import secrets from './secrets';
+import { STATUS, CHANNEL } from '../entities/interface';
 
 /* Configure API Access for Airtable Base */
 interface TableOptionProps {
@@ -52,4 +53,16 @@ export const createManyRecord = <T extends IManyRecordField>(baseName: string, p
 
 	logger.info(`creating new record in ${baseName}`);
 	return base(baseName).create([ [ ...payload ] ]);
+};
+
+export const notifyRecord = async (message: string, recipientName: string, status: STATUS, channel: CHANNEL) => {
+	logger.debug(`airtable.provider notify for ${status} status`);
+	const recordCreatedOption = {
+		Recipient: recipientName,
+		Message: message,
+		Status: status,
+		Time: new Date().toString(),
+		Channel: channel
+	};
+	await createOneRecord('Delivered_Messages', recordCreatedOption);
 };

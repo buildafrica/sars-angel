@@ -8,7 +8,7 @@ const logger = winston.createLogger({
 		winston.format.splat(),
 		winston.format.colorize(),
 		winston.format.errors({ stack: true }),
-		winston.format.timestamp({ format: () => new Date().toString() }),
+		winston.format.timestamp({ format: () => new Date().toISOString() }),
 		winston.format.printf(({ level, message, label, timestamp }) => {
 			return `[${label}:${level}] ${message} (${timestamp})`;
 		})
