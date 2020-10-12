@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -54,56 +65,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var postmark = __importStar(require("postmark"));
-var secrets_1 = __importDefault(require("./secrets"));
-var body_1 = __importDefault(require("../entities/body"));
-var postmarkEmailProvider = function (recipientEmail, recipientName) { return __awaiter(void 0, void 0, void 0, function () {
-    var serverToken, client;
+exports.getStatemen = void 0;
+var airtable = __importStar(require("../core/airtable.provider"));
+exports.getStatemen = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var params, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                serverToken = secrets_1.default.POSTMARK_KEY || '';
-                client = new postmark.ServerClient(serverToken);
-                /* Send Email using Postmark Templates */
-                return [4 /*yield*/, client
-                        .sendEmailWithTemplate({
-                        From: secrets_1.default.POSTMARK_SENDER,
-                        To: recipientEmail,
-                        TemplateAlias: 'comment-notification',
-                        TemplateModel: {
-                            product_url: 'https://statehouse.gov.ng/',
-                            product_name: '#EndSARSNow #ReformPoliceNG',
-                            body: "Dear " + recipientName + ", " + body_1.default.email,
-                            attachment_details: [
-                                {
-                                    attachment_url: 'https://www.safewaysagency.com/wp-content/uploads/2020/06/Nigeria-640x640-1.jpg',
-                                    attachment_name: '#Nigeria',
-                                    attachment_size: 'small',
-                                    attachment_type: 'jpg'
-                                }
-                            ],
-                            commenter_name: 'The Youths of Nigeria',
-                            timestamp: Date.now(),
-                            action_url: 'https://statehouse.gov.ng/',
-                            notifications_url: 'https://statehouse.gov.ng/',
-                            company_name: 'Arise oh Compatriots, Nigerias call obey',
-                            company_address: 'Federal Government of Nigeria'
-                        }
-                    })
-                        .then(function (response) {
-                        console.log(response);
-                        return response;
-                    })
-                        .catch(function (err) { return console.error(err); })];
+                params = {
+                    baseName: 'Recipients',
+                    baseView: 'Main'
+                };
+                return [4 /*yield*/, airtable
+                        .getSimpleCollection(params)
+                        .all()
+                        .then(function (v) { return v.map(function (record) { return (__assign({ id: record.id }, record.fields)); }); })];
             case 1:
-                /* Send Email using Postmark Templates */
-                _a.sent();
-                return [2 /*return*/];
+                data = _a.sent();
+                return [2 /*return*/, data];
         }
     });
 }); };
-exports.default = postmarkEmailProvider;

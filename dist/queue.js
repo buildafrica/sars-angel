@@ -58,37 +58,78 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createConsumer = exports.createWorker = void 0;
 var bull_1 = __importDefault(require("bull"));
+var ioredis_1 = __importDefault(require("ioredis"));
 var BullBoard = __importStar(require("bull-board"));
 var secrets_1 = __importDefault(require("./core/secrets"));
 var tasks_1 = require("./_helpers/tasks");
 /* Import Producers and Consumers from Messaging Channels */
 var email_1 = require("./channels/email");
-// Initialize the Task Runner Bull.Queue<any>
-var messageQueue = new bull_1.default('messenger', {
-    redis: {
-        port: secrets_1.default.REDIS_PORT,
-        host: secrets_1.default.REDIS_HOST,
-        password: secrets_1.default.REDIS_PASSWORD
+var sms_1 = require("./channels/sms");
+var voice_1 = require("./channels/voice");
+var MAX_CONCURRENCY = 5;
+var SMS = 'SMS';
+var VOICE = 'voice';
+var EMAIL = 'email';
+// Initialize the Redis Connection Options
+var redisConnectionOptions = {
+    port: secrets_1.default.REDIS_PORT,
+    host: secrets_1.default.REDIS_HOST,
+    password: secrets_1.default.REDIS_PASSWORD
+};
+var client = new ioredis_1.default(redisConnectionOptions);
+var subscriber = new ioredis_1.default(redisConnectionOptions);
+/* --------------------------------------------------------------------------------
+ *
+ * Re-use connection in ioredis
+ * https://github.com/OptimalBits/bull/blob/master/PATTERNS.md#reusing-redis-connections
+ *
+ ---------------------------------------------------------------------------------*/
+var queueOptions = {
+    createClient: function (__type__) {
+        switch (__type__) {
+            case 'client':
+                return client;
+            case 'subscriber':
+                return subscriber;
+            default:
+                return new ioredis_1.default(redisConnectionOptions);
+        }
     }
-});
+};
+var messageQueue = new bull_1.default('messenger', queueOptions);
 /* Notify the Bull Board UI about the Queues within the app*/
 BullBoard.setQueues([messageQueue]);
 function queue() {
     return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: 
-                // Invoke all Producers here
-                return [4 /*yield*/, tasks_1._createRepeatableTask(messageQueue, 'email', email_1.emailProducer())];
+        var _a, _b, _c, _d;
+        return __generator(this, function (_e) {
+            switch (_e.label) {
+                case 0:
+                    /* Instantiate all Producers here */
+                    tasks_1._createRepeatableTask(messageQueue)(EMAIL, email_1.emailProducer());
+                    _a = tasks_1._createRepeatableTask(messageQueue);
+                    _b = [SMS];
+                    return [4 /*yield*/, sms_1.SMSProducer()];
                 case 1:
-                    // Invoke all Producers here
-                    _a.sent();
+                    _a.apply(void 0, _b.concat([_e.sent()]));
+                    _c = tasks_1._createRepeatableTask(messageQueue);
+                    _d = [VOICE];
+                    return [4 /*yield*/, voice_1.voiceProducer()];
+                case 2:
+                    _c.apply(void 0, _d.concat([_e.sent()]));
                     // Call Consumers here
-                    messageQueue.process('email', function (job, done) { return email_1.emailConsumer(job, done); });
+                    messageQueue.process(EMAIL, function (job, done) { return email_1.emailConsumer(job, done); });
+                    messageQueue.process(SMS, MAX_CONCURRENCY, function (job, done) { return sms_1.SMSConsumer(job, done); });
+                    messageQueue.process(VOICE, function (job, done) { return voice_1.voiceConsumer(job, done); });
                     return [2 /*return*/];
             }
         });
     });
 }
 exports.default = queue;
+/* We will come to this later:: Function to immediately create a producer from API*/
+exports.createWorker = function () { return null; };
+/* Function that invokes a job's process and consumes immediately from API*/
+exports.createConsumer = function () { return null; };

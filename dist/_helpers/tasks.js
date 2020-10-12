@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports._createCronTask = exports._createRepeatableTask = void 0;
-exports._createRepeatableTask = function (queue, name, data) {
+exports._createRepeatableTask = function (queue) { return function (name, data) {
     queue.add(name, data, {
         repeat: {
-            every: 18000000,
-            limit: 100
+            every: 1000,
+            limit: 2
         }
     });
-};
+}; };
 exports._createCronTask = function (queue, name, data) {
     queue.add(name, data, {
         repeat: { cron: '1 * * * *' }

@@ -59,30 +59,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mbSMSProvider = exports.mbVoiceCallProvider = void 0;
+var airtable = __importStar(require("./airtable.provider"));
 var mb = __importStar(require("messagebird"));
 /* Entties and Logger */
 var logger_1 = __importDefault(require("../core/logger"));
 var secrets_1 = __importDefault(require("../core/secrets"));
 var body_1 = __importDefault(require("../entities/body"));
-var key = secrets_1.default.MESSAGEBIRD_KEY || '';
+var interface_1 = require("../entities/interface");
+var key = secrets_1.default.MESSAGEBIRD_TESTKEY || '';
 var messagebird = mb.default(key);
-exports.mbVoiceCallProvider = function (recipientPhone, recipientName) { return __awaiter(void 0, void 0, void 0, function () {
+exports.mbVoiceCallProvider = function (recipientPhone, recipientName, message) { return __awaiter(void 0, void 0, void 0, function () {
     var voiceParams;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                airtable.notifyRecord(message, recipientName, interface_1.STATUS.DELIVERED, interface_1.CHANNEL.VOICE);
                 voiceParams = {
-                    body: "Dear " + recipientName + ", " + body_1.default.voice,
+                    body: "Dear " + recipientName + ", " + message,
                     language: 'en-au',
+                    recipients: [recipientPhone],
                     voice: 'female',
-                    originator: '#EndSARSNow'
+                    originator: secrets_1.default.CALL_SENDERID
                 };
-                return [4 /*yield*/, messagebird.voice_messages.create([recipientPhone], voiceParams, function (err, data) {
+                return [4 /*yield*/, messagebird.voice_messages.create(voiceParams, function (err, data) {
                         if (err) {
-                            return logger_1.default.error(err);
+                            logger_1.default.error('voice_message.create message sending failed');
+                            airtable.notifyRecord(message, recipientName, interface_1.STATUS.FAILED, interface_1.CHANNEL.VOICE);
+                            console.error(err);
                         }
-                        logger_1.default.info(data);
-                        return data;
+                        return logger_1.default.info(JSON.stringify(data));
                     })];
             case 1:
                 _a.sent();
@@ -90,11 +95,12 @@ exports.mbVoiceCallProvider = function (recipientPhone, recipientName) { return 
         }
     });
 }); };
-exports.mbSMSProvider = function (recipientPhone, recipientName) { return __awaiter(void 0, void 0, void 0, function () {
+exports.mbSMSProvider = function (recipientPhone, recipientName, message) { return __awaiter(void 0, void 0, void 0, function () {
     var smsParams;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                airtable.notifyRecord(message, recipientName, interface_1.STATUS.DELIVERED, interface_1.CHANNEL.VOICE);
                 smsParams = {
                     originator: '#EndSARSNow',
                     recipients: [recipientPhone],
@@ -102,10 +108,11 @@ exports.mbSMSProvider = function (recipientPhone, recipientName) { return __awai
                 };
                 return [4 /*yield*/, messagebird.messages.create(smsParams, function (err, data) {
                         if (err) {
-                            return logger_1.default.error(err);
+                            airtable.notifyRecord(message, recipientName, interface_1.STATUS.FAILED, interface_1.CHANNEL.VOICE);
+                            logger_1.default.error(err);
                         }
-                        logger_1.default.info(data);
-                        return data;
+                        console.log(data);
+                        return logger_1.default.info(JSON.stringify(data));
                     })];
             case 1:
                 _a.sent();

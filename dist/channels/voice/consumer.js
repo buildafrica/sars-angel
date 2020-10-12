@@ -35,37 +35,34 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var logger_1 = __importDefault(require("./core/logger"));
-var secrets_1 = __importDefault(require("./core/secrets"));
-var server_1 = __importDefault(require("./server"));
-var queue_1 = __importDefault(require("./queue"));
-function main() {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+exports.voiceConsumer = void 0;
+var entities_1 = require("./../../_helpers/entities");
+var messages_entities_1 = require("../../entities/messages.entities");
+var messagebird_provider_1 = require("../../core/messagebird.provider");
+function voiceConsumer(job, done) {
+    var _this = this;
+    var data = job.data;
+    console.log('voice.consumer job started with', data);
+    /* Call the Messaging Provier and Update Table Records */
+    data.forEach(function (item) { return __awaiter(_this, void 0, void 0, function () {
+        var phone, name, message, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
-                    /* Instantiate the Redis Queue Here */
-                    queue_1.default();
-                    /* Start & Listen on HTTP Server */
-                    return [4 /*yield*/, server_1.default.listen({ port: secrets_1.default.PORT, host: secrets_1.default.HOST })];
+                    phone = item.phone || '';
+                    name = item.name || '';
+                    _a = entities_1.getRandomNode;
+                    return [4 /*yield*/, messages_entities_1.getVoicePayload()];
                 case 1:
-                    /* Start & Listen on HTTP Server */
-                    _a.sent();
-                    logger_1.default.info("Running at http://" + secrets_1.default.HOST + ":" + secrets_1.default.PORT);
+                    message = _a.apply(void 0, [_b.sent()]) || '';
+                    return [4 /*yield*/, messagebird_provider_1.mbVoiceCallProvider(phone, name, message)];
+                case 2:
+                    _b.sent();
                     return [2 /*return*/];
             }
         });
-    });
+    }); });
+    done();
 }
-process.on('unhandledRejection', function (err) {
-    if (err) {
-        console.error(err);
-        logger_1.default.debug(err);
-    }
-    process.exit(1);
-});
-main();
+exports.voiceConsumer = voiceConsumer;

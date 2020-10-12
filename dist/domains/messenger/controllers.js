@@ -35,37 +35,49 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var logger_1 = __importDefault(require("./core/logger"));
-var secrets_1 = __importDefault(require("./core/secrets"));
-var server_1 = __importDefault(require("./server"));
-var queue_1 = __importDefault(require("./queue"));
-function main() {
-    return __awaiter(this, void 0, void 0, function () {
+exports.default = {
+    createWorker: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+        var model, data;
+        return __generator(this, function (_a) {
+            console.log(req.body);
+            try {
+                model = req.body;
+                data = { holder: model };
+                if (data !== null) {
+                    res.status(201).json({
+                        status: 'success',
+                        data: data
+                    });
+                }
+            }
+            catch (error) {
+                next(error);
+            }
+            return [2 /*return*/];
+        });
+    }); },
+    show: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+        var id, data, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    /* Instantiate the Redis Queue Here */
-                    queue_1.default();
-                    /* Start & Listen on HTTP Server */
-                    return [4 /*yield*/, server_1.default.listen({ port: secrets_1.default.PORT, host: secrets_1.default.HOST })];
+                    _a.trys.push([0, 2, , 3]);
+                    id = req.params.id;
+                    return [4 /*yield*/, { holder: id }];
                 case 1:
-                    /* Start & Listen on HTTP Server */
-                    _a.sent();
-                    logger_1.default.info("Running at http://" + secrets_1.default.HOST + ":" + secrets_1.default.PORT);
-                    return [2 /*return*/];
+                    data = _a.sent();
+                    res.status(200).json({
+                        status: 'success',
+                        data: data
+                    });
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_1 = _a.sent();
+                    next(error_1);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
             }
         });
-    });
-}
-process.on('unhandledRejection', function (err) {
-    if (err) {
-        console.error(err);
-        logger_1.default.debug(err);
-    }
-    process.exit(1);
-});
-main();
+    }); }
+};

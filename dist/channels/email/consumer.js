@@ -7,6 +7,7 @@ exports.emailConsumer = void 0;
 var postmark_provider_1 = __importDefault(require("../../core/postmark.provider"));
 function emailConsumer(job, done) {
     var data = job.data;
+    console.log('EMAIL CONSUMER JOB STARTED ---->', job);
     // Call the Email provider
     data.forEach(function (item) {
         var email = item.email || '';

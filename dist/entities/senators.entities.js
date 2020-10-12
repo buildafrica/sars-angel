@@ -272,16 +272,6 @@ var statemen = [
         email: 'ezeonyewuchi@gmail.com'
     },
     {
-        state: 'IMO',
-        name: 'Sen. R. Okorocha',
-        email: 'rochas.okorocha@nass.gov.ng'
-    },
-    {
-        state: 'IMO',
-        name: 'Sen. B. Uwajumogu',
-        email: 'benjamin.uwajumogu@nass.gov.ng'
-    },
-    {
         state: 'JIGAWA',
         name: 'Sen. D. Sankara',
         phone: '08037032577',
@@ -292,11 +282,6 @@ var statemen = [
         name: 'Sen. S. Mohammed',
         phone: '08022902648',
         email: 'nakudu@yahoo.com'
-    },
-    {
-        state: 'JIGAWA',
-        name: 'Sen. I. Hadejia',
-        email: 'ibrahim.hadejia@nass.gov.ng'
     },
     {
         state: 'KADUNA',
@@ -312,29 +297,9 @@ var statemen = [
     },
     {
         state: 'KANO',
-        name: 'Sen. K. Gaya',
-        email: 'abiru.gaya@nass.gov.ng'
-    },
-    {
-        state: 'KANO',
-        name: 'Sen. I. Jibrin',
-        email: 'ibrahim.jibrin@nass.gov.ng'
-    },
-    {
-        state: 'KANO',
         name: 'Sen. I. Shekarau',
         phone: '08099199111',
         email: 'ishekarau55@yahoo.com'
-    },
-    {
-        state: 'KATSINA',
-        name: 'Sen. A. Babba-Kaita',
-        email: 'ahmad.babba@nass.gov.ng'
-    },
-    {
-        state: 'KATSINA',
-        name: 'Sen. B. Mandiya',
-        email: 'bellom2001@yahoo.com'
     },
     {
         state: 'KATSINA',
@@ -347,16 +312,6 @@ var statemen = [
         name: 'Sen. M. Aliero',
         phone: '07066847000',
         email: 'senatoraliero@yahoo.com'
-    },
-    {
-        state: 'KEBBI',
-        name: 'Sen. Y. Abdullahi',
-        email: 'yahaya.abdullahi@nass.gov.ng'
-    },
-    {
-        state: 'KEBBI',
-        name: "Sen. B. Na'Allah",
-        email: 'bala.naallah@nass.gov.ng'
     },
     {
         state: 'KOGI',
@@ -375,11 +330,6 @@ var statemen = [
         name: 'Sen. A. Yisa',
         phone: '07055221111',
         email: 'ylashiru@gmail.com'
-    },
-    {
-        state: 'KWARA',
-        name: 'Sen. S. Umar',
-        email: 'sadiq.umar@nass.gov.ng'
     },
     {
         state: 'KWARA',
@@ -404,11 +354,6 @@ var statemen = [
         name: 'Sen. S. Adeola',
         phone: '08074000040',
         email: 'adeolaolamilekan2005@yahoo.com'
-    },
-    {
-        state: 'NASARAWA',
-        name: 'Sen. A. Adamu',
-        email: 'abdullahi.adamu@nass.gov.ng'
     },
     {
         state: 'NASARAWA',
@@ -529,16 +474,6 @@ var statemen = [
         name: 'Sen. I. Gyang',
         phone: '08097777712',
         email: 'dridgyang@gmail.com'
-    },
-    {
-        state: 'RIVERS',
-        name: 'Sen. B. Apiafi',
-        email: 'betty.apiafi@nass.gov.ng'
-    },
-    {
-        state: 'RIVERS',
-        name: 'Sen. G. Sekibo',
-        email: 'george.sekibo@nass.gov.ng'
     },
     {
         state: 'RIVERS',

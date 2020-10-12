@@ -58,52 +58,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var postmark = __importStar(require("postmark"));
-var secrets_1 = __importDefault(require("./secrets"));
-var body_1 = __importDefault(require("../entities/body"));
-var postmarkEmailProvider = function (recipientEmail, recipientName) { return __awaiter(void 0, void 0, void 0, function () {
-    var serverToken, client;
+exports.SMSProducer = void 0;
+var logger_1 = __importDefault(require("../../core/logger"));
+var airtable = __importStar(require("./../../core/airtable.provider"));
+var statemen_entities_1 = require("./../../entities/statemen.entities");
+var interface_1 = require("./../../entities/interface");
+/* Producer function returns an object of intended recipients for a channel type */
+exports.SMSProducer = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var recipients, result, recordCreatedOption;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                serverToken = secrets_1.default.POSTMARK_KEY || '';
-                client = new postmark.ServerClient(serverToken);
-                /* Send Email using Postmark Templates */
-                return [4 /*yield*/, client
-                        .sendEmailWithTemplate({
-                        From: secrets_1.default.POSTMARK_SENDER,
-                        To: recipientEmail,
-                        TemplateAlias: 'comment-notification',
-                        TemplateModel: {
-                            product_url: 'https://statehouse.gov.ng/',
-                            product_name: '#EndSARSNow #ReformPoliceNG',
-                            body: "Dear " + recipientName + ", " + body_1.default.email,
-                            attachment_details: [
-                                {
-                                    attachment_url: 'https://www.safewaysagency.com/wp-content/uploads/2020/06/Nigeria-640x640-1.jpg',
-                                    attachment_name: '#Nigeria',
-                                    attachment_size: 'small',
-                                    attachment_type: 'jpg'
-                                }
-                            ],
-                            commenter_name: 'The Youths of Nigeria',
-                            timestamp: Date.now(),
-                            action_url: 'https://statehouse.gov.ng/',
-                            notifications_url: 'https://statehouse.gov.ng/',
-                            company_name: 'Arise oh Compatriots, Nigerias call obey',
-                            company_address: 'Federal Government of Nigeria'
-                        }
-                    })
-                        .then(function (response) {
-                        console.log(response);
-                        return response;
-                    })
-                        .catch(function (err) { return console.error(err); })];
+                logger_1.default.info('SMS.producer started');
+                return [4 /*yield*/, statemen_entities_1.getStatemen()];
             case 1:
-                /* Send Email using Postmark Templates */
-                _a.sent();
-                return [2 /*return*/];
+                recipients = _a.sent();
+                result = recipients.filter(function (record) { return record.phone !== undefined; }).map(function (val, _index) {
+                    return { phone: val.phone.replace(/^[0]/, '+234'), name: val.name };
+                });
+                recordCreatedOption = {
+                    recipients: result.length + " Recipients",
+                    channel: interface_1.CHANNEL.SMS,
+                    message: "A " + interface_1.CHANNEL.SMS + " worker has been initiated on " + new Date().toUTCString() + " with " + result.length + " Recipients",
+                    time: new Date().toString()
+                };
+                airtable.createOneRecord('Scheduled_Messages', recordCreatedOption);
+                logger_1.default.info("SMS.producer payload generated");
+                return [2 /*return*/, result];
         }
     });
 }); };
-exports.default = postmarkEmailProvider;

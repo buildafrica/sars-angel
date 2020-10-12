@@ -24,10 +24,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var BullBoard = __importStar(require("bull-board"));
-// import bullRoutes from './domains/bull/routes';
+var routes_1 = __importDefault(require("./domains/messenger/routes"));
+var cors_1 = __importDefault(require("cors"));
 var server = express_1.default();
-/* For the UI */
-server.use('/', BullBoard.UI);
+/* Enable cors:: should limit origin once stabls */
+server.use(cors_1.default({
+    methods: ['GET', 'POST', 'PATCH'],
+    credentials: true,
+    origin: '*'
+}));
+/* --- JSON Parser for incoming requests --- */
+server.use(express_1.default.urlencoded({ extended: true }));
+server.use(express_1.default.json());
+/* For the UI and API Routes*/
+server.use('/bull-board-ui', BullBoard.UI);
+server.use('/messenger', routes_1.default);
 server.use('/_healthcheck', function (_req, res) {
     res.status(200).json({ uptime: process.uptime() });
 });
