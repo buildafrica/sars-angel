@@ -9,7 +9,7 @@ import { emailConsumer, emailProducer } from './channels/email';
 import { SMSConsumer, SMSProducer } from './channels/sms';
 import { voiceConsumer, voiceProducer } from './channels/voice';
 
-const MAX_CONCURRENCY = 5;
+const MAX_CONCURRENCY = 3;
 const SMS = 'SMS';
 const VOICE = 'voice';
 const EMAIL = 'email';

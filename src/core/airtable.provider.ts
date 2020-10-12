@@ -56,7 +56,7 @@ export const createManyRecord = <T extends IManyRecordField>(baseName: string, p
 };
 
 export const notifyRecord = async (message: string, recipientName: string, status: STATUS, channel: CHANNEL) => {
-	logger.debug(`airtable.provider notify for ${status} status`);
+	logger.debug(`airtable.provider func: notifyRecord for ${status} status`);
 	const recordCreatedOption = {
 		Recipient: recipientName,
 		Message: message,

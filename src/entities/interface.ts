@@ -19,6 +19,6 @@ export enum CHANNEL {
 	TWITTER = 'twitter'
 }
 export enum STATUS {
-	FAILED = 'voice',
-	DELIVERED = 'sms'
+	FAILED = 'failed',
+	DELIVERED = 'delivered'
 }
