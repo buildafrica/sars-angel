@@ -1,8 +1,4 @@
 import Bull from 'bull';
-/**
- * Task Consumer
- * This is where we will retrieve the payload from a job to process through a messaging provider e.g. postmark | sendgrid etc.
- */
 import { DoneCallback } from 'bull';
 import { IStatemen } from './../../entities/interface';
 import postmarkEmailProvider from '../../core/postmark.provider';
