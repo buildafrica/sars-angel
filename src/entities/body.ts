@@ -1,3 +1,5 @@
+/* TO_BE_DEPRECATED__DO_NOT_USE */
+
 /**
  * Define the content for message body to be used in all events
  * @name Body Body content to use through Angel
