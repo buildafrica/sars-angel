@@ -23,7 +23,7 @@ export const getSimpleCollection = (options: Omit<TableOptionProps, 'limit'>) =>
 	});
 };
 
-export const getCollection = (options: TableOptionProps) => {
+export const getCollections = (options: TableOptionProps) => {
 	const { baseName, limit, baseView } = options;
 	const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
 
