@@ -8,7 +8,7 @@ export async function SMSConsumer(job: Bull.Job<IStatemen[]>, done: DoneCallback
 	console.log('SMS JOB STARTED ---->', job);
 
 	// Call the Email provider
-	await data.forEach(async (item) => {
+	data.forEach(async (item) => {
 		const phone = item.phone || '';
 		const name = item.name || '';
 		await mbSMSProvider(phone, name);

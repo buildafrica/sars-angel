@@ -3,12 +3,12 @@ import Bull, { DoneCallback } from 'bull';
 import { IStatemen } from './../../entities/interface';
 import { mbVoiceCallProvider } from '../../core/messagebird.provider';
 
-export async function voiceConsumer(job: Bull.Job<IStatemen[]>, done: DoneCallback) {
+export function voiceConsumer(job: Bull.Job<IStatemen[]>, done: DoneCallback) {
 	const { data } = job;
-	console.log('VOICE CALL JOB STARTED ---->', job);
+	console.log('voice.consumer job started with', data);
 
-	// Call the Email provider
-	await data.forEach(async (item) => {
+	/* Call the Messaging Provier and Update Table Records */
+	data.forEach(async (item) => {
 		const phone = item.phone || '';
 		const name = item.name || '';
 		await mbVoiceCallProvider(phone, name);

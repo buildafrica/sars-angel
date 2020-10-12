@@ -20,11 +20,6 @@ export default {
 		'We are being killed and harassed by the same people who are supposed to protect us, please do something, speak for us! #EndSARS'
 };
 
-export const altMessaging = {
-	email:
-		'Leaders establish trust with candor transparency and credit, A leader is best when people barely know he exists when his work is done, his aim fulfilled, they will all say: We did it ourselves'
-};
-
 /* For Tweets */
 export const mentions =
 	'@BBCNews  @cnnbrk  @dwtv  @TheDailyShow  @FoxNews  @FOXTV  @FOX17Erik  @FoxBusiness  @FoxNews  @espn  @ESPNPR  @ABC   @AriseTVAmerica  @nytimes  @NYDailyNews  @nypost  @AlJazeera  @AljazeeraDoc  @cnnbrk  @bbcquestiontime   @cnni';
