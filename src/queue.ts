@@ -5,14 +5,14 @@ import secrets from './core/secrets';
 import { _createRepeatableTask } from './_helpers/tasks';
 
 /* Import Producers and Consumers from Messaging Channels */
-// import { emailConsumer, emailProducer } from './channels/email';
-// import { SMSConsumer, SMSProducer } from './channels/sms';
+import { emailConsumer, emailProducer } from './channels/email';
+import { SMSConsumer, SMSProducer } from './channels/sms';
 import { voiceConsumer, voiceProducer } from './channels/voice';
 
 const MAX_CONCURRENCY = 5;
-// const SMS = 'SMS';
+const SMS = 'SMS';
 const VOICE = 'voice';
-// const EMAIL = 'email'
+const EMAIL = 'email';
 
 // Initialize the Redis Connection Options
 const redisConnectionOptions = {
@@ -24,7 +24,12 @@ const redisConnectionOptions = {
 const client = new ioredis(redisConnectionOptions);
 const subscriber = new ioredis(redisConnectionOptions);
 
-/* Re-use connection in ioredis https://github.com/OptimalBits/bull/blob/master/PATTERNS.md#reusing-redis-connections */
+/* --------------------------------------------------------------------------------
+ * 
+ * Re-use connection in ioredis 
+ * https://github.com/OptimalBits/bull/blob/master/PATTERNS.md#reusing-redis-connections
+ * 
+ ---------------------------------------------------------------------------------*/
 const queueOptions: Bull.QueueOptions = {
 	createClient: (__type__) => {
 		switch (__type__) {
@@ -44,19 +49,19 @@ const messageQueue = new Bull('messenger', queueOptions);
 BullBoard.setQueues([ messageQueue ]);
 
 export default async function queue() {
-	// Invoke all Producers here
-	// await _createRepeatableTask(messageQueue)(EMAIL, emailProducer());
-	// await _createRepeatableTask(messageQueue)(SMS, SMSProducer());
-	await _createRepeatableTask(messageQueue)(VOICE, voiceProducer());
+	/* Instantiate all Producers here */
+	_createRepeatableTask(messageQueue)(EMAIL, emailProducer());
+	_createRepeatableTask(messageQueue)(SMS, await SMSProducer());
+	_createRepeatableTask(messageQueue)(VOICE, await voiceProducer());
 
 	// Call Consumers here
-	// messageQueue.process(EMAIL, (job, done) => emailConsumer(job, done));
-	// messageQueue.process(SMS, MAX_CONCURRENCY, (job, done) => SMSConsumer(job, done));
-	messageQueue.process(VOICE, MAX_CONCURRENCY, (job, done) => voiceConsumer(job, done));
+	messageQueue.process(EMAIL, (job, done) => emailConsumer(job, done));
+	messageQueue.process(SMS, MAX_CONCURRENCY, (job, done) => SMSConsumer(job, done));
+	messageQueue.process(VOICE, (job, done) => voiceConsumer(job, done));
 }
 
-/* We come to this later Function to immediately create a producer*/
+/* We will come to this later:: Function to immediately create a producer from API*/
 export const createWorker = () => null;
 
-/* Function that invokes a job's process and consumes immediately */
+/* Function that invokes a job's process and consumes immediately from API*/
 export const createConsumer = () => null;

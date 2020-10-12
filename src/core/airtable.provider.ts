@@ -64,5 +64,5 @@ export const notifyRecord = async (message: string, recipientName: string, statu
 		Time: new Date().toString(),
 		Channel: channel
 	};
-	await createOneRecord('Delivered_Messages', recordCreatedOption);
+	return await createOneRecord('Delivered_Messages', recordCreatedOption);
 };
