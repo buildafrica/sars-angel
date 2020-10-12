@@ -18,7 +18,7 @@ server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 
 /* For the UI and API Routes*/
-server.use('/ui', BullBoard.UI);
+server.use('/bull-board-ui', BullBoard.UI);
 server.use('/messenger', messengerRoute);
 server.use('/_healthcheck', (_req, res) => {
 	res.status(200).json({ uptime: process.uptime() });

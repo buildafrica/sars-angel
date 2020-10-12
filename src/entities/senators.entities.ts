@@ -1,3 +1,4 @@
+/* TO_BE_DEPRECATED__DO_NOT_USE */
 import { IStatemen } from './interface';
 
 const statemen: IStatemen[] = [
