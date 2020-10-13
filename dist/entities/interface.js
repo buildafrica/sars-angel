@@ -11,6 +11,6 @@ var CHANNEL;
 })(CHANNEL = exports.CHANNEL || (exports.CHANNEL = {}));
 var STATUS;
 (function (STATUS) {
-    STATUS["FAILED"] = "voice";
-    STATUS["DELIVERED"] = "sms";
+    STATUS["FAILED"] = "failed";
+    STATUS["DELIVERED"] = "delivered";
 })(STATUS = exports.STATUS || (exports.STATUS = {}));

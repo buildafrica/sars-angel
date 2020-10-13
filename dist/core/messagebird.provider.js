@@ -64,16 +64,14 @@ var mb = __importStar(require("messagebird"));
 /* Entties and Logger */
 var logger_1 = __importDefault(require("../core/logger"));
 var secrets_1 = __importDefault(require("../core/secrets"));
-var body_1 = __importDefault(require("../entities/body"));
 var interface_1 = require("../entities/interface");
-var key = secrets_1.default.MESSAGEBIRD_TESTKEY || '';
+var key = secrets_1.default.MESSAGEBIRD_KEY || '';
 var messagebird = mb.default(key);
 exports.mbVoiceCallProvider = function (recipientPhone, recipientName, message) { return __awaiter(void 0, void 0, void 0, function () {
     var voiceParams;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                airtable.notifyRecord(message, recipientName, interface_1.STATUS.DELIVERED, interface_1.CHANNEL.VOICE);
                 voiceParams = {
                     body: "Dear " + recipientName + ", " + message,
                     language: 'en-au',
@@ -87,6 +85,7 @@ exports.mbVoiceCallProvider = function (recipientPhone, recipientName, message) 
                             airtable.notifyRecord(message, recipientName, interface_1.STATUS.FAILED, interface_1.CHANNEL.VOICE);
                             console.error(err);
                         }
+                        airtable.notifyRecord(message, recipientName, interface_1.STATUS.DELIVERED, interface_1.CHANNEL.VOICE);
                         return logger_1.default.info(JSON.stringify(data));
                     })];
             case 1:
@@ -100,18 +99,17 @@ exports.mbSMSProvider = function (recipientPhone, recipientName, message) { retu
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                airtable.notifyRecord(message, recipientName, interface_1.STATUS.DELIVERED, interface_1.CHANNEL.VOICE);
                 smsParams = {
                     originator: '#EndSARSNow',
                     recipients: [recipientPhone],
-                    body: "Dear " + recipientName + ", " + body_1.default.sms
+                    body: "Dear " + recipientName + ", " + message
                 };
                 return [4 /*yield*/, messagebird.messages.create(smsParams, function (err, data) {
                         if (err) {
-                            airtable.notifyRecord(message, recipientName, interface_1.STATUS.FAILED, interface_1.CHANNEL.VOICE);
+                            airtable.notifyRecord(message, recipientName, interface_1.STATUS.FAILED, interface_1.CHANNEL.SMS);
                             logger_1.default.error(err);
                         }
-                        console.log(data);
+                        airtable.notifyRecord(message, recipientName, interface_1.STATUS.DELIVERED, interface_1.CHANNEL.SMS);
                         return logger_1.default.info(JSON.stringify(data));
                     })];
             case 1:

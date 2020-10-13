@@ -58,10 +58,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var airtable = __importStar(require("./airtable.provider"));
 var postmark = __importStar(require("postmark"));
 var secrets_1 = __importDefault(require("./secrets"));
-var body_1 = __importDefault(require("../entities/body"));
-var postmarkEmailProvider = function (recipientEmail, recipientName) { return __awaiter(void 0, void 0, void 0, function () {
+var logger_1 = __importDefault(require("../core/logger"));
+var interface_1 = require("../entities/interface");
+var postmarkEmailProvider = function (recipientEmail, recipientName, message) { return __awaiter(void 0, void 0, void 0, function () {
     var serverToken, client;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -77,7 +79,7 @@ var postmarkEmailProvider = function (recipientEmail, recipientName) { return __
                         TemplateModel: {
                             product_url: 'https://statehouse.gov.ng/',
                             product_name: '#EndSARSNow #ReformPoliceNG',
-                            body: "Dear " + recipientName + ", " + body_1.default.email,
+                            body: "Dear " + recipientName + ", " + message,
                             attachment_details: [
                                 {
                                     attachment_url: 'https://www.safewaysagency.com/wp-content/uploads/2020/06/Nigeria-640x640-1.jpg',
@@ -95,10 +97,15 @@ var postmarkEmailProvider = function (recipientEmail, recipientName) { return __
                         }
                     })
                         .then(function (response) {
-                        console.log(response);
+                        logger_1.default.debug("postmark.sendEmailWithTemplate --> " + JSON.stringify(response));
+                        airtable.notifyRecord(message, recipientName, interface_1.STATUS.FAILED, interface_1.CHANNEL.EMAIL);
                         return response;
                     })
-                        .catch(function (err) { return console.error(err); })];
+                        .catch(function (err) {
+                        logger_1.default.error('postmark.sendEmailWithTemplate action failed');
+                        airtable.notifyRecord(message, recipientName, interface_1.STATUS.FAILED, interface_1.CHANNEL.EMAIL);
+                        console.error(err);
+                    })];
             case 1:
                 /* Send Email using Postmark Templates */
                 _a.sent();
