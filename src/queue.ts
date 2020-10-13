@@ -50,7 +50,7 @@ BullBoard.setQueues([ messageQueue ]);
 
 export default async function queue() {
 	/* Instantiate all Producers here */
-	_createRepeatableTask(messageQueue)(EMAIL, emailProducer());
+	_createRepeatableTask(messageQueue)(EMAIL, await emailProducer());
 	_createRepeatableTask(messageQueue)(SMS, await SMSProducer());
 	_createRepeatableTask(messageQueue)(VOICE, await voiceProducer());
 

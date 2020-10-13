@@ -1,9 +1,12 @@
+import * as airtable from './airtable.provider';
 import * as postmark from 'postmark';
 import { MessageSendingResponse } from 'postmark/dist/client/models';
-import secrets from './secrets';
-import messageBody from '../entities/body';
 
-const postmarkEmailProvider = async (recipientEmail: string, recipientName: string) => {
+import secrets from './secrets';
+import logger from '../core/logger';
+import { STATUS, CHANNEL } from '../entities/interface';
+
+const postmarkEmailProvider = async (recipientEmail: string, recipientName: string, message: string) => {
 	/* Initialize Keys */
 	const serverToken = secrets.POSTMARK_KEY || '';
 	const client = new postmark.ServerClient(serverToken);
@@ -17,7 +20,7 @@ const postmarkEmailProvider = async (recipientEmail: string, recipientName: stri
 			TemplateModel: {
 				product_url: 'https://statehouse.gov.ng/',
 				product_name: '#EndSARSNow #ReformPoliceNG',
-				body: `Dear ${recipientName}, ${messageBody.email}`,
+				body: `Dear ${recipientName}, ${message}`,
 				attachment_details: [
 					{
 						attachment_url:
@@ -36,10 +39,15 @@ const postmarkEmailProvider = async (recipientEmail: string, recipientName: stri
 			}
 		})
 		.then((response: MessageSendingResponse): MessageSendingResponse => {
-			console.log(response);
+			logger.debug(`postmark.sendEmailWithTemplate --> ${JSON.stringify(response)}`);
+			airtable.notifyRecord(message, recipientName, STATUS.FAILED, CHANNEL.EMAIL);
 			return response;
 		})
-		.catch((err) => console.error(err));
+		.catch((err) => {
+			logger.error('postmark.sendEmailWithTemplate action failed');
+			airtable.notifyRecord(message, recipientName, STATUS.FAILED, CHANNEL.EMAIL);
+			console.error(err);
+		});
 };
 
 export default postmarkEmailProvider;

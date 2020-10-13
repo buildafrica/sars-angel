@@ -16,5 +16,6 @@ exports.default = {
     SMS_SENDERID: process.env.SMS_SENDERID,
     CALL_SENDERID: process.env.CALL_SENDERID,
     AIRTABLE_KEY: process.env.AIRTABLE_KEY || '',
-    AIRTABLE_BASE: process.env.AIRTABLE_BASE || ''
+    AIRTABLE_BASE: process.env.AIRTABLE_BASE || '',
+    SEND_INTERVAL: process.env.SEND_INTERVAL || 1800000
 };

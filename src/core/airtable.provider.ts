@@ -1,3 +1,4 @@
+import { CreateRecordOptionProps } from './../entities/interface';
 import Airtable from 'airtable';
 import logger from './logger';
 import secrets from './secrets';
@@ -34,10 +35,13 @@ export const getCollections = (options: TableOptionProps) => {
 	});
 };
 
-export const createOneRecord = <T extends Object>(baseName: string, payload: T) => {
+export const createOneRecord = <T extends CreateRecordOptionProps | Record<any, string>>(
+	baseName: string,
+	payload: T
+) => {
 	const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
 
-	logger.info(`creating new record in ${baseName}`);
+	logger.info(`creating new record in ${baseName} for ${payload.channel}`);
 
 	return base(baseName).create([
 		{

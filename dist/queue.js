@@ -103,22 +103,27 @@ var messageQueue = new bull_1.default('messenger', queueOptions);
 BullBoard.setQueues([messageQueue]);
 function queue() {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, _b, _c, _d;
-        return __generator(this, function (_e) {
-            switch (_e.label) {
+        var _a, _b, _c, _d, _e, _f;
+        return __generator(this, function (_g) {
+            switch (_g.label) {
                 case 0:
                     /* Instantiate all Producers here */
-                    tasks_1._createRepeatableTask(messageQueue)(EMAIL, email_1.emailProducer());
                     _a = tasks_1._createRepeatableTask(messageQueue);
-                    _b = [SMS];
-                    return [4 /*yield*/, sms_1.SMSProducer()];
+                    _b = [EMAIL];
+                    return [4 /*yield*/, email_1.emailProducer()];
                 case 1:
-                    _a.apply(void 0, _b.concat([_e.sent()]));
+                    /* Instantiate all Producers here */
+                    _a.apply(void 0, _b.concat([_g.sent()]));
                     _c = tasks_1._createRepeatableTask(messageQueue);
-                    _d = [VOICE];
-                    return [4 /*yield*/, voice_1.voiceProducer()];
+                    _d = [SMS];
+                    return [4 /*yield*/, sms_1.SMSProducer()];
                 case 2:
-                    _c.apply(void 0, _d.concat([_e.sent()]));
+                    _c.apply(void 0, _d.concat([_g.sent()]));
+                    _e = tasks_1._createRepeatableTask(messageQueue);
+                    _f = [VOICE];
+                    return [4 /*yield*/, voice_1.voiceProducer()];
+                case 3:
+                    _e.apply(void 0, _f.concat([_g.sent()]));
                     // Call Consumers here
                     messageQueue.process(EMAIL, function (job, done) { return email_1.emailConsumer(job, done); });
                     messageQueue.process(SMS, MAX_CONCURRENCY, function (job, done) { return sms_1.SMSConsumer(job, done); });
