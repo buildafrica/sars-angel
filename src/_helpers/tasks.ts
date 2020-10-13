@@ -6,14 +6,15 @@ import { IStatemen } from './../entities/interface';
 /* ------------------------------------------------------------------------ */
 
 import Bull from 'bull';
+import secrets from '../core/secrets';
 type TQueueProducer = IStatemen | (IStatemen | Partial<IStatemen>)[];
 type TData = TQueueProducer | (() => TQueueProducer);
 
 export const _createRepeatableTask = (queue: Bull.Queue) => <T extends TData>(name: string, data: T) => {
 	queue.add(name, data, {
 		repeat: {
-			every: 1800, // 300 minutes = 18000000
-			limit: 2
+			every: secrets.SEND_INTERVAL as number, // 300 minutes = 18000000
+			limit: 10000
 		}
 	});
 };
