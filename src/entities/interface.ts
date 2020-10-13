@@ -22,3 +22,10 @@ export enum STATUS {
 	FAILED = 'failed',
 	DELIVERED = 'delivered'
 }
+
+export interface CreateRecordOptionProps {
+	recipients: string;
+	channel: CHANNEL;
+	message: string;
+	time: Date | string;
+}
