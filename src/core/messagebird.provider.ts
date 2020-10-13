@@ -6,15 +6,12 @@ import { VoiceParametersWithRecipients } from 'messagebird/types/voice_messages'
 /* Entties and Logger */
 import logger from '../core/logger';
 import secrets from '../core/secrets';
-import messageBody from '../entities/body';
 import { STATUS, CHANNEL } from '../entities/interface';
 
-const key = secrets.MESSAGEBIRD_TESTKEY || '';
+const key = secrets.MESSAGEBIRD_KEY || '';
 const messagebird = mb.default(key);
 
 export const mbVoiceCallProvider = async (recipientPhone: string, recipientName: string, message: string) => {
-	airtable.notifyRecord(message, recipientName, STATUS.DELIVERED, CHANNEL.VOICE);
-
 	const voiceParams: VoiceParametersWithRecipients = {
 		body: `Dear ${recipientName}, ${message}`,
 		language: 'en-au',
@@ -30,25 +27,24 @@ export const mbVoiceCallProvider = async (recipientPhone: string, recipientName:
 
 			console.error(err);
 		}
+		airtable.notifyRecord(message, recipientName, STATUS.DELIVERED, CHANNEL.VOICE);
 		return logger.info(JSON.stringify(data));
 	});
 };
 
 export const mbSMSProvider = async (recipientPhone: string, recipientName: string, message: string) => {
-	airtable.notifyRecord(message, recipientName, STATUS.DELIVERED, CHANNEL.VOICE);
-
 	const smsParams: MessageParameters = {
 		originator: '#EndSARSNow',
 		recipients: [ recipientPhone ],
-		body: `Dear ${recipientName}, ${messageBody.sms}`
+		body: `Dear ${recipientName}, ${message}`
 	};
 
 	await messagebird.messages.create(smsParams, (err, data) => {
 		if (err) {
-			airtable.notifyRecord(message, recipientName, STATUS.FAILED, CHANNEL.VOICE);
+			airtable.notifyRecord(message, recipientName, STATUS.FAILED, CHANNEL.SMS);
 			logger.error(err);
 		}
-		console.log(data);
+		airtable.notifyRecord(message, recipientName, STATUS.DELIVERED, CHANNEL.SMS);
 		return logger.info(JSON.stringify(data));
 	});
 };

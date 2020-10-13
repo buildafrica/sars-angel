@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "sars-angel",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"scripts": {
 		"build": "run-s build:clean build:code",
 		"build:clean": "rimraf dist",
@@ -19,14 +19,7 @@
 			"^.+\\.ts$": "ts-jest"
 		},
 		"testRegex": "\\.test\\.ts",
-		"moduleFileExtensions": [
-			"ts",
-			"tsx",
-			"js",
-			"jsx",
-			"json",
-			"node"
-		]
+		"moduleFileExtensions": [ "ts", "tsx", "js", "jsx", "json", "node" ]
 	},
 	"prettier": {
 		"singleQuote": true,

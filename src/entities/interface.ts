@@ -19,6 +19,13 @@ export enum CHANNEL {
 	TWITTER = 'twitter'
 }
 export enum STATUS {
-	FAILED = 'voice',
-	DELIVERED = 'sms'
+	FAILED = 'failed',
+	DELIVERED = 'delivered'
+}
+
+export interface CreateRecordOptionProps {
+	recipients: string;
+	channel: CHANNEL;
+	message: string;
+	time: Date | string;
 }

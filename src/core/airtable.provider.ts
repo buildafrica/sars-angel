@@ -1,3 +1,4 @@
+import { CreateRecordOptionProps } from './../entities/interface';
 import Airtable from 'airtable';
 import logger from './logger';
 import secrets from './secrets';
@@ -34,10 +35,13 @@ export const getCollections = (options: TableOptionProps) => {
 	});
 };
 
-export const createOneRecord = <T extends Object>(baseName: string, payload: T) => {
+export const createOneRecord = <T extends CreateRecordOptionProps | Record<any, string>>(
+	baseName: string,
+	payload: T
+) => {
 	const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
 
-	logger.info(`creating new record in ${baseName}`);
+	logger.info(`creating new record in ${baseName} for ${payload.channel}`);
 
 	return base(baseName).create([
 		{
@@ -56,7 +60,7 @@ export const createManyRecord = <T extends IManyRecordField>(baseName: string, p
 };
 
 export const notifyRecord = async (message: string, recipientName: string, status: STATUS, channel: CHANNEL) => {
-	logger.debug(`airtable.provider notify for ${status} status`);
+	logger.debug(`airtable.provider func: notifyRecord for ${status} status`);
 	const recordCreatedOption = {
 		Recipient: recipientName,
 		Message: message,

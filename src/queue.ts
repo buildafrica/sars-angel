@@ -9,7 +9,7 @@ import { emailConsumer, emailProducer } from './channels/email';
 import { SMSConsumer, SMSProducer } from './channels/sms';
 import { voiceConsumer, voiceProducer } from './channels/voice';
 
-const MAX_CONCURRENCY = 5;
+const MAX_CONCURRENCY = 3;
 const SMS = 'SMS';
 const VOICE = 'voice';
 const EMAIL = 'email';
@@ -50,7 +50,7 @@ BullBoard.setQueues([ messageQueue ]);
 
 export default async function queue() {
 	/* Instantiate all Producers here */
-	_createRepeatableTask(messageQueue)(EMAIL, emailProducer());
+	_createRepeatableTask(messageQueue)(EMAIL, await emailProducer());
 	_createRepeatableTask(messageQueue)(SMS, await SMSProducer());
 	_createRepeatableTask(messageQueue)(VOICE, await voiceProducer());
 

@@ -78,7 +78,7 @@ exports.getCollections = function (options) {
 };
 exports.createOneRecord = function (baseName, payload) {
     var base = new airtable_1.default({ apiKey: secrets_1.default.AIRTABLE_KEY }).base(secrets_1.default.AIRTABLE_BASE);
-    logger_1.default.info("creating new record in " + baseName);
+    logger_1.default.info("creating new record in " + baseName + " for " + payload.channel);
     return base(baseName).create([
         {
             fields: __assign({}, payload)
@@ -95,7 +95,7 @@ exports.notifyRecord = function (message, recipientName, status, channel) { retu
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                logger_1.default.debug("airtable.provider notify for " + status + " status");
+                logger_1.default.debug("airtable.provider func: notifyRecord for " + status + " status");
                 recordCreatedOption = {
                     Recipient: recipientName,
                     Message: message,
