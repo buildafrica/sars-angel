@@ -2,7 +2,7 @@ import Bull from 'bull';
 import ioredis from 'ioredis';
 import * as BullBoard from 'bull-board';
 import secrets from './core/secrets';
-import { _createRepeatableTask } from './_helpers/tasks';
+import { _createRepeatableTask, _createCronTask } from './_helpers/tasks';
 
 /* Import Producers and Consumers from Messaging Channels */
 import { emailConsumer, emailProducer } from './channels/email';
@@ -51,7 +51,7 @@ BullBoard.setQueues([ messageQueue ]);
 export default async function queue() {
 	/* Instantiate all Producers here */
 	_createRepeatableTask(messageQueue)(EMAIL, await emailProducer());
-	_createRepeatableTask(messageQueue)(SMS, await SMSProducer());
+	_createCronTask(messageQueue, SMS, await SMSProducer());
 	_createRepeatableTask(messageQueue)(VOICE, await voiceProducer());
 
 	// Call Consumers here

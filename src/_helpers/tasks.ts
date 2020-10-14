@@ -21,6 +21,6 @@ export const _createRepeatableTask = (queue: Bull.Queue) => <T extends TData>(na
 
 export const _createCronTask = (queue: Bull.Queue, name: string, data: TData) => {
 	queue.add(name, data, {
-		repeat: { cron: '1 * * * *' }
+		repeat: { cron: '* 2 * * *' }
 	});
 };
