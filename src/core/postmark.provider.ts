@@ -40,7 +40,7 @@ const postmarkEmailProvider = async (recipientEmail: string, recipientName: stri
 		})
 		.then((response: MessageSendingResponse): MessageSendingResponse => {
 			logger.debug(`postmark.sendEmailWithTemplate --> ${JSON.stringify(response)}`);
-			airtable.notifyRecord(message, recipientName, STATUS.FAILED, CHANNEL.EMAIL);
+			airtable.notifyRecord(message, recipientName, STATUS.DELIVERED, CHANNEL.EMAIL);
 			return response;
 		})
 		.catch((err) => {

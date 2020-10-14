@@ -34,12 +34,12 @@ export const mbVoiceCallProvider = async (recipientPhone: string, recipientName:
 
 export const mbSMSProvider = async (recipientPhone: string, recipientName: string, message: string) => {
 	const smsParams: MessageParameters = {
-		originator: '#EndSARSNow',
+		originator: secrets.SMS_SENDERID,
 		recipients: [ recipientPhone ],
 		body: `Dear ${recipientName}, ${message}`
 	};
 
-	await messagebird.messages.create(smsParams, (err, data) => {
+	await messagebird.messages.create(smsParams, function(err, data) {
 		if (err) {
 			airtable.notifyRecord(message, recipientName, STATUS.FAILED, CHANNEL.SMS);
 			logger.error(err);

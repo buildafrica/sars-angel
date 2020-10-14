@@ -12,7 +12,7 @@ export default {
 	POSTMARK_KEY: process.env.POSTMARK_KEY,
 	MESSAGEBIRD_KEY: process.env.MESSAGEBIRD_KEY,
 	MESSAGEBIRD_TESTKEY: process.env.MESSAGEBIRD_TESTKEY,
-	SMS_SENDERID: process.env.SMS_SENDERID,
+	SMS_SENDERID: process.env.SMS_SENDERID || '',
 	CALL_SENDERID: process.env.CALL_SENDERID,
 	AIRTABLE_KEY: process.env.AIRTABLE_KEY || '',
 	AIRTABLE_BASE: process.env.AIRTABLE_BASE || '',
