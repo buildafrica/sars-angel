@@ -98,7 +98,7 @@ var postmarkEmailProvider = function (recipientEmail, recipientName, message) { 
                     })
                         .then(function (response) {
                         logger_1.default.debug("postmark.sendEmailWithTemplate --> " + JSON.stringify(response));
-                        airtable.notifyRecord(message, recipientName, interface_1.STATUS.FAILED, interface_1.CHANNEL.EMAIL);
+                        airtable.notifyRecord(message, recipientName, interface_1.STATUS.DELIVERED, interface_1.CHANNEL.EMAIL);
                         return response;
                     })
                         .catch(function (err) {

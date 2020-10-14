@@ -114,8 +114,8 @@ function queue() {
                 case 1:
                     /* Instantiate all Producers here */
                     _a.apply(void 0, _b.concat([_g.sent()]));
-                    _c = tasks_1._createRepeatableTask(messageQueue);
-                    _d = [SMS];
+                    _c = tasks_1._createCronTask;
+                    _d = [messageQueue, SMS];
                     return [4 /*yield*/, sms_1.SMSProducer()];
                 case 2:
                     _c.apply(void 0, _d.concat([_g.sent()]));

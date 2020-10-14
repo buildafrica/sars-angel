@@ -15,6 +15,6 @@ exports._createRepeatableTask = function (queue) { return function (name, data) 
 }; };
 exports._createCronTask = function (queue, name, data) {
     queue.add(name, data, {
-        repeat: { cron: '1 * * * *' }
+        repeat: { cron: '* 2 * * *' }
     });
 };

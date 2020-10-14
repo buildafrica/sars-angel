@@ -100,7 +100,7 @@ exports.mbSMSProvider = function (recipientPhone, recipientName, message) { retu
         switch (_a.label) {
             case 0:
                 smsParams = {
-                    originator: '#EndSARSNow',
+                    originator: secrets_1.default.SMS_SENDERID,
                     recipients: [recipientPhone],
                     body: "Dear " + recipientName + ", " + message
                 };
