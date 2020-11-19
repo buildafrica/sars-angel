@@ -9,11 +9,11 @@ After starting the app with `npm run dev:debug`, you've two options:
 
 ## NTH (Nice to haves)
 
-- Tumble Sender Addresses to limit spam
-- Add Provider for Whatsapp
-- Add Provider for Twitter Alerts to Public Servants
-- Multiple Messaging Formats
-- More recipients apart from Senators to entities [Governors, President,State Judiciary]
-- Possibly open this API up so that users can publish their own messages through the queue
-- Move the Public Servants Entity to some `Airtable` so that contact information can be crowd sourced
+- [ ] Tumble Sender Addresses to limit spam
+- [ ] Add Provider for Whatsapp
+- [ ] Add Provider for Twitter Alerts to Public Servants
+- [x] Multiple Messaging Formats
+- [x] More recipients apart from Senators to entities [Governors, President,State Judiciary]
+- [x] Possibly open this API up so that users can publish their own messages through the queue
+- [x] Move the Public Servants Entity to some `Airtable` so that contact information can be crowd sourced
 
